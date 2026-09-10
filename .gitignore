@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# editor
+.vscode/
+.idea/
+
+# personal working files that must never ship in the public skill
+references/feed-insights.PROPOSED.md
