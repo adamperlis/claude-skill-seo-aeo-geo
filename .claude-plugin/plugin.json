@@ -1,0 +1,10 @@
+{
+  "name": "seo-aeo-geo",
+  "description": "Comprehensive SEO, AEO (Answer Engine Optimization), and GEO (Generative Engine Optimization) audit and implementation for websites and Ghost themes. Get cited by ChatGPT, Perplexity, Gemini, and Google AI Overviews.",
+  "version": "1.0.0",
+  "author": { "name": "Adam Perlis" },
+  "homepage": "https://github.com/adamperlis/claude-skill-seo-aeo-geo",
+  "repository": "https://github.com/adamperlis/claude-skill-seo-aeo-geo",
+  "license": "MIT",
+  "keywords": ["seo", "aeo", "geo", "schema", "structured-data", "ai-visibility", "generative-engine-optimization", "ghost"]
+}

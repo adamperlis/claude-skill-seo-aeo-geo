@@ -24,15 +24,24 @@ the skill's recommendations keep pace with a fast-moving field without you editi
 
 ## Install
 
-Drop it into your Claude Code skills directory as `seo-aeo-geo` (the folder name must match
-the skill name so it's invocable as `/seo-aeo-geo`):
+**Easiest — as a plugin, right inside Claude Code (no terminal, auto-updates):**
+
+```
+/plugin marketplace add adamperlis/claude-skill-seo-aeo-geo
+/plugin install seo-aeo-geo@adamperlis
+```
+
+Then start a new session. To pull future improvements: `/plugin update seo-aeo-geo`.
+
+**Alternative — clone into your skills folder (plain git, updatable with `git pull`):**
 
 ```bash
 git clone https://github.com/adamperlis/claude-skill-seo-aeo-geo ~/.claude/skills/seo-aeo-geo
 ```
 
-Claude Code only reads `SKILL.md` and `references/`; the `README`/`LICENSE`/`.git` files are
-harmless extras. Restart Claude Code (or start a new session) and the skill is available.
+Either way, the skill triggers automatically on SEO/AEO/GEO topics, or invoke it with
+`/seo-aeo-geo`. (Claude Code only needs `SKILL.md` + `references/`; the other files are
+harmless extras.)
 
 ## Use
 
