@@ -8,7 +8,9 @@ description: >
   optimization, being cited by AI, showing up in ChatGPT/Perplexity/Gemini/AI
   Overviews, or when auditing/improving a website or theme for search performance.
   Also trigger when the user asks about entity authority, speakable content, query
-  fan-out, or how AI search engines decide what to cite. Trigger proactively when
+  fan-out, or how AI search engines decide what to cite. Trigger as well on AI content
+  detection questions — SynthID, AI watermarking, "can Google tell my content is AI",
+  AI detectors, or whether AI-written content gets penalized or demoted. Trigger proactively when
   reviewing a theme, CMS, or site — even if the user doesn't explicitly say "SEO".
 ---
 
@@ -129,6 +131,67 @@ the live research index for sourced detail, refreshed weekly):
 > citation channel across AI broadly, while the ChatGPT-specific study shows Reddit is used for
 > context but almost never cited *by ChatGPT*. Both are true — they measure different surfaces.
 > Always state which engine a recommendation targets.
+
+---
+
+## AI Content Detection & Watermarking — Separate Three Different Things
+
+This is the highest-volume source of bad advice in the AEO/GEO space right now. Clients arrive
+convinced Google has "caught" their AI content and is demoting them. Before advising anything,
+force the distinction between three unrelated mechanisms that get collapsed into one:
+
+**1. Provenance watermarking (SynthID).** Google DeepMind's SynthID-Text is a *sampling-time*
+intervention, not a property of a model's weights. It biases token selection during generation
+using a secret key seeded on a sliding window of preceding tokens; detection scores the
+statistical fingerprint that leaves behind. Three consequences that settle most client questions:
+
+- It **cannot be applied retroactively**. Text not generated through a watermarking decoder carries no mark.
+- It only exists where someone **deliberately puts it in the decoding loop**. Gemini and the Gemini API do. Open-weight models (Llama, Qwen, Mistral, and Gemma's released weights) do not, unless an operator explicitly enables it — Google open-sourced the logits processor into Hugging Face Transformers as opt-in, and effectively nobody opts in.
+- The signal lives in the **exact token sequence**, so it degrades under paraphrase and is destroyed by genuine regeneration through a different model. Google's own Nature paper acknowledges the fragility.
+
+**2. AI-detector classifiers.** What most commercial "AI detectors" actually run — stylometric
+classifiers guessing at burstiness and perplexity. Unrelated to watermarking, not operated by
+Google, and unreliable in both directions. Never let a client make decisions off one.
+
+**3. Google's actual quality and spam systems.** Google's stated position remains that
+AI-generated content is not inherently a violation — **scaled content abuse** is, regardless of
+how it was produced. This is the system that actually moves rankings.
+
+### The claim to push back on
+
+The widespread assertion that "a core update turned watermark detection into a ranking filter"
+is **not supported by any first-party source**. What did happen: SynthID moved into Search as
+**provenance labeling for media** — surfacing how an asset was made — which is a transparency
+feature, not a ranking signal. Labeled is not demoted. Treat any vendor blog claiming otherwise
+as low-trust, and note the circularity — that claim propagates almost entirely between SEO blogs
+citing each other, with no Google statement underneath it.
+
+Correlation fuels this: core updates with high volatility produce large numbers of sites looking
+for a cause, and "Google detected my AI" is a more satisfying story than "my content was
+commodity."
+
+### Regulatory direction of travel
+
+The EU AI Act's synthetic-content labeling obligations are now in force. For any client
+publishing into the EU, this makes provenance a **compliance question, not an SEO one** — and the
+legal direction is toward disclosure, not away from it. Advising a client to strip provenance
+signals can create regulatory exposure that dwarfs any imagined ranking benefit.
+
+### What to actually advise
+
+- ❌ Do **not** build watermark-evasion pipelines. They target a penalty mechanism nobody has demonstrated exists, and they cut against where regulation is heading.
+- ❌ Do not let "is my content detectable?" displace the diagnostic that matters: *is this content non-commodity?* Google's own guide names firsthand experience and a real point of view as the lever.
+- ✅ A local-model rewrite pass in a drafting workflow is fine — justify it on **voice, accuracy, and differentiation**, which are documented signals. If it also happens to regenerate the token sequence, that's a side effect, not the business case.
+- ✅ Drafting locally from the start (Ollama/llama.cpp with an open-weight model) sidesteps the entire question and keeps client data off third-party APIs — usually the stronger argument with enterprise clients anyway.
+- ✅ If a client insists their traffic drop is watermark-driven, ask what changed in the same window. It is nearly always a core update, a competitor's content investment, or an intent shift.
+
+> ⚠️ **Verify this section before relying on it.** It was last checked against secondary sources
+> (SEO and AI-tooling blogs) — the same class this skill tells you to discount — because Google's
+> first-party documentation could not be reached at the time. The architectural claims about how
+> SynthID-Text works are stable and well-sourced; the *policy* claims about Search behavior are
+> the ones to re-confirm. Fetch Google's guide and check for any first-party statement before
+> giving a client a definitive answer:
+> `https://developers.google.com/search/docs/fundamentals/ai-optimization-guide`
 
 ---
 
