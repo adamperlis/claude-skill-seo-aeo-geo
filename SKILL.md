@@ -185,6 +185,16 @@ signals can create regulatory exposure that dwarfs any imagined ranking benefit.
 - ✅ Drafting locally from the start (Ollama/llama.cpp with an open-weight model) sidesteps the entire question and keeps client data off third-party APIs — usually the stronger argument with enterprise clients anyway.
 - ✅ If a client insists their traffic drop is watermark-driven, ask what changed in the same window. It is nearly always a core update, a competitor's content investment, or an intent shift.
 
+**Note the irony in the popular version of this advice.** The widely-shared remedy for "Google
+watermarked your AI content" is *a human editing pass* — a person rewriting the draft. If that is
+the fix, then the mechanism being described is not really watermarking at all: a human rewrite
+produces original judgment, restructured argument, and firsthand framing, which is exactly the
+non-commodity content Google's guide asks for. The remedy works, but not for the reason it is
+sold. Useful diagnostic when a client cites this advice: ask whether they would still do the
+human pass if watermarking did not exist. If the honest answer is no, they are buying the wrong
+justification for the right practice — and automating that pass with a local model to save the
+labor removes the very thing that made it work.
+
 > ⚠️ **Verify this section before relying on it.** It was last checked against secondary sources
 > (SEO and AI-tooling blogs) — the same class this skill tells you to discount — because Google's
 > first-party documentation could not be reached at the time. The architectural claims about how
