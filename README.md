@@ -65,6 +65,7 @@ entirely optional; the skill works fully without it.
 | `references/schema-patterns.md` | Ready-to-use JSON-LD blocks for Ghost/Handlebars themes |
 | `references/audit-checklist.md` | Systematic full SEO/AEO/GEO audit checklist |
 | `references/feed-insights.md` | Offline snapshot of the distilled insights (live copy is fetched at runtime) |
+| `references/field-lessons.md` | First-party lessons from real audits — the agent test method, the branded/unbranded diagnostic, bot user agents, comparison coverage |
 
 ## License
 

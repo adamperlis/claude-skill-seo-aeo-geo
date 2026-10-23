@@ -12,6 +12,12 @@ content advice makes sense.
 
 ### Crawl Access
 - [ ] `robots.txt` exists and does NOT block: `GPTBot`, `Googlebot`, `Googlebot-News`, `PerplexityBot`, `ClaudeBot`, `anthropic-ai`, `OAI-SearchBot`
+- [ ] **User-initiated fetchers** are judged separately from training crawlers: `ChatGPT-User`, `Claude-User`, `Perplexity-User`, `meta-externalfetcher` are a customer's assistant reading the page on request — blocking them turns that customer away (see `field-lessons.md`)
+- [ ] No rules for stale bot names only (`Claude-Web`, `AnthropicAI`) — they match nothing current
+- [ ] **Agent fetch test:** curl key pages (`/`, pricing, download, docs) with each agent's user agent; all return 200 with real content (script in `field-lessons.md`)
+- [ ] Byte sizes differ per page — a "page" the same size as `/` is a redirect to the homepage, not a page an agent can cite
+- [ ] Firewall / bot protection (Vercel, Cloudflare, WAF) does not challenge those user agents — robots.txt allowing a bot does not mean the firewall does
+- [ ] Key facts (price, platforms, limits) are in the **no-JS HTML** as plain text — not split across spans or hidden behind a monthly/annual toggle
 - [ ] Pages are server-rendered — no critical content gated behind JS that requires browser execution
 - [ ] Canonical URLs are set correctly on all pages — no duplicate pages at www/non-www or http/https
 - [ ] `sitemap.xml` exists at `/sitemap.xml` or linked from `robots.txt`
@@ -44,7 +50,8 @@ content advice makes sense.
 ### Organization / Publisher Entity
 - [ ] `Organization` (or `NewsMediaOrganization`) schema appears on **every page** — not just homepage
 - [ ] Organization `@id` is consistent across all pages: `{{site.url}}#organization`
-- [ ] `sameAs` includes all known brand URLs: main domain, social profiles, Wikipedia if exists
+- [ ] `sameAs` includes all known brand URLs: main domain, social profiles, app store listings, directory pages, Wikipedia if exists
+- [ ] Every `sameAs` URL is **this** entity — not a parent company's or sister product's profile
 - [ ] Homepage has full Organization block with `logo`, `foundingDate`, `founder`, `knowsAbout`
 - [ ] Non-home pages reference Organization by `@id` only (lightweight reference)
 
@@ -79,6 +86,11 @@ content advice makes sense.
 - [ ] `BreadcrumbList` on all post pages
 - [ ] Position 1 = Home, position 2 = primary tag/section, position 3 = post title
 - [ ] Breadcrumb items reflect actual navigation structure
+
+### Fact Consistency
+- [ ] Every machine-readable copy of a fact (FAQ JSON-LD, product `description`, `llms.txt`, docs, app store listing) matches the canonical source — diff them; agents read these first
+- [ ] Ideally those copies are generated from one facts module, not typed separately
+- [ ] Before recommending a schema **type** change, look for a reason in comments or commit history (e.g. `Thing` instead of `SoftwareApplication` because the rich result needs a rating the brand doesn't publish)
 
 ### Validation
 - [ ] No schema errors in Google's Rich Results Test
@@ -124,6 +136,12 @@ Advisory — cannot be verified from the codebase, but ask the user to check.
 - [ ] Organization name is stated identically across all platforms (no "Acme by Acme Corp" vs "Acme" vs "acme/Acme")
 - [ ] `sameAs` URLs in schema match actual profile URLs
 - [ ] Company description on all platforms uses same ~2-sentence framing
+- [ ] **Name collision:** search the bare brand name — if it's a common word or another product, every third-party mention pairs it with the category ("Acme invoicing", not "Acme")
+
+### Competitive Coverage
+- [ ] Comparison / "alternatives" pages exist for the competitors **agents actually name** in unbranded answers (from the prompt panel below), not only the ones the brand assumed
+- [ ] Classic-search page one checked for the main category queries ("best <category>", "<leader> alternative") — a brand-owned listicle that isn't on page one won't be retrieved
+- [ ] The roundups, subreddits, videos and directories that agents **cited** in unbranded answers are listed, with an owner for each
 
 ### Third-Party Presence (Based on 57M Citation Study)
 - [ ] **Reddit** (20.8% of AI citations): Active presence in relevant subreddits; content being discussed or linked
@@ -157,4 +175,5 @@ After implementing changes, track:
 - **Rich Results Test** → all structured data types should pass
 - **"Money prompts"**: Run queries buyers actually use in ChatGPT, Perplexity, Gemini — check if brand is cited
 - **Unbranded category queries**: "best [category] newsletter" / "who covers [topic]" — hardest to win, highest value
+- **Prompt panel, branded + unbranded, tracked separately:** for each answer record brand named (y/n), facts right (y/n), sources cited, competitors named. Branded right + unbranded absent = off-site problem (see `field-lessons.md`). Repeat runs before reporting a rate.
 - **Monthly**: check if `sameAs` entities are being picked up (search `site:linkedin.com "<brand>"` etc.)

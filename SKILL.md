@@ -158,9 +158,30 @@ Diagnose every site through these three lenses. Miss one and the others can't co
 
 ## Audit Framework — Run in This Order
 
+### 0. Agent Test — run first; it decides where the effort goes
+Ask real buying questions in at least three agents (signed out where they allow it), in two sets:
+**branded** ("is <brand> free, what do plans cost?") and **unbranded** ("best <category> for <need>",
+"cheaper <leader> alternative"). For every answer record: brand named, facts right, sources cited,
+competitors named. Method, access limits and CLI commands: `references/field-lessons.md`.
+
+Read the result before touching code:
+- **Branded right, unbranded absent → off-site problem.** The site is legible; nobody else talks
+  about the brand. On-site work won't move the unbranded number — say so, and lead with Step 4.
+- **Branded wrong → on-site first.** Fix facts, fetchability and structure (Steps 1–3) before
+  chasing mentions, or the mentions spread the wrong description.
+- The **sources cited** and **competitors named** in unbranded answers are the roadmap: which
+  roundups, subreddits and videos to get into, and which comparison pages to build.
+
+One run per agent is directional; repeat before quoting a rate.
+
 ### 1. Technical Foundation
 Check that AI crawlers can access content:
-- `robots.txt` — nothing accidentally blocking GPTBot, Googlebot, PerplexityBot, ClaudeBot
+- `robots.txt` — nothing accidentally blocking GPTBot, Googlebot, PerplexityBot, ClaudeBot.
+  Judge **user-initiated fetchers** (`ChatGPT-User`, `Claude-User`, `Perplexity-User`,
+  `meta-externalfetcher`) separately from training crawlers: blocking them refuses a customer's
+  assistant, not a scraper. Rules for stale names (`Claude-Web`, `AnthropicAI`) match nothing.
+- Fetch key pages **as the agents** (curl with their user agents) — the firewall can block what
+  robots.txt allows, and a "page" the same size as `/` is really a redirect to the homepage
 - Pages are server-rendered (not client-only JS) — critical for GEO; AI crawlers have lower tolerance for JS-heavy pages than Googlebot
 - Canonical URLs are correct — no duplicate content confusing the crawler
 - `sitemap.xml` exists and is submitted to Search Console
@@ -185,6 +206,12 @@ What NOT to do (myths from Google's official guide):
 - ❌ Rewriting content specifically for AI systems
 - ❌ Over-focusing on structured data — it's helpful but not required for AI features
 
+Before changing a schema **type**, look for the reason it was chosen (a code comment, a commit).
+A generic `Thing` can be deliberate: Google's SoftwareApplication rich result requires a rating or
+review the brand may not publish. Fix stale *facts* inside the type instead — and diff every
+machine-readable copy of a fact (FAQ JSON-LD, `description`, `llms.txt`, docs) against the
+canonical source; they drift.
+
 ### 3. Content Structure (advise the user — not always code changes)
 - Does each post open with a direct statement answering the core question? (extractability)
 - Are there H2/H3 sections with self-contained meaning?
@@ -201,6 +228,13 @@ Based on the 57M citation study, these are the highest-leverage off-site channel
 - **Help/support docs**: 8% — well-structured how-to content AI loves to cite
 
 The citation fingerprint is **vertical-specific** — always check which sources AI actually cites for the user's specific topic/industry before recommending channels.
+
+In niche software categories (observed 2026-10, see `field-lessons.md`), unbranded answers were
+built mostly from **rival-written "best X" roundups**, plus category subreddits, YouTube comparison
+videos and directory listings (Product Hunt, Zapier, PCMag). A brand-owned listicle or comparison
+page was not used unless it ranked on page one of classic search. Build comparison pages for the
+competitors agents *name*, and if the brand name is a common word, pair it with the category in
+every third-party mention ("Acme dictation", not "Acme").
 
 ---
 
@@ -238,6 +272,7 @@ Based on the citation study, name the 2–3 highest-leverage external channels f
 - Google Search Console → AI Overviews impressions
 - Run "money prompts" in ChatGPT, Perplexity, Gemini — the questions buyers actually ask in their category
 - Track whether the brand appears in responses to unbranded category queries (hardest and most valuable)
+- Report branded and unbranded results **separately** — they have different causes and fixes
 
 ---
 
@@ -246,5 +281,6 @@ Based on the citation study, name the 2–3 highest-leverage external channels f
 - `references/schema-patterns.md` — Ready-to-use JSON-LD patterns for Ghost/HBS themes
 - `references/audit-checklist.md` — Systematic checklist for a full SEO/AEO/GEO audit
 - `references/feed-insights.md` — Bundled snapshot of distilled insights (offline fallback; the live copy is fetched in Step 1)
+- `references/field-lessons.md` — First-party lessons from real audits: the agent test method and access limits, the branded/unbranded diagnostic, bot user agents, comparison coverage, name collisions, schema and fact drift (hand-edited; dated)
 - Live research index (fetch for the latest): `https://raw.githubusercontent.com/adamperlis/aeo-geo-research/main/index.md`
 - Google's official guide (fetch live for latest): `https://developers.google.com/search/docs/fundamentals/ai-optimization-guide`
