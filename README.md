@@ -8,7 +8,8 @@ ChatGPT, Perplexity, Gemini, and Claude.
 It ships with a mental model for how AI search actually chooses sources, an engine-by-engine
 playbook (they conflict — the skill says so), the FSA framework (Freshness / Structure /
 Authority), a run-in-order audit framework, copy-paste JSON-LD schema patterns for Ghost, and
-a full audit checklist.
+a full audit checklist. The [agent-readiness playbook](references/agent-readiness.md)
+covers scanner baselines, machine-readable discovery and production workflow tests.
 
 ## What makes it stay current
 
@@ -63,6 +64,7 @@ entirely optional; the skill works fully without it.
 |---|---|
 | `SKILL.md` | The skill itself — mental model, engine map, FSA, audit framework, reporting |
 | `references/schema-patterns.md` | Ready-to-use JSON-LD blocks for Ghost/Handlebars themes |
+| `references/agent-readiness.md` | Scanner profiles, machine-readable discovery, and production workflow verification |
 | `references/audit-checklist.md` | Systematic full SEO/AEO/GEO audit checklist |
 | `references/feed-insights.md` | Offline snapshot of the distilled insights (live copy is fetched at runtime) |
 | `references/field-lessons.md` | First-party lessons from real audits — the agent test method, the branded/unbranded diagnostic, bot user agents, comparison coverage |
